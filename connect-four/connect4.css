@@ -1,8 +1,15 @@
 /* game board table */
+#board {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 #board td {
   width: 50px;
   height: 50px;
+  
   border: solid 1px #666;
 }
 
@@ -13,10 +20,17 @@
   margin: 5px;
   width: 80%;
   height: 80%;
+  border-radius: 100%;
 }
 
 /* TODO: make pieces red/blue,  depending on player 1/2 piece */
+.p1{
+  background-color: red;
+}
 
+.p2{
+  background-color: blue;
+}
 /* column-top is table row of clickable areas for each column */
 
 #column-top td {
@@ -24,5 +38,7 @@
 }
 
 #column-top td:hover {
-  background-color: gold;
+  background-color: rgba(131, 167, 149, 0.801);
 }
+
+ 

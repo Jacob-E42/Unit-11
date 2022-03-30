@@ -15,15 +15,10 @@ const board = []; // array of rows, each row is array of cells  (board[y][x])
  *    board = array of rows, each row is array of cells  (board[y][x])
  */
 
+
 function makeBoard() {
   for (let y = 0; y < HEIGHT; y++) {
-    board.push([]);
-
-  }
-  for (let y = 0; y < HEIGHT; y++) {
-    for (let x = 0; x < WIDTH; x++) {
-      board[y][x] = null;
-    }
+    board.push(Array.from({ length: WIDTH }));
   }
 }
 
@@ -31,10 +26,10 @@ function makeBoard() {
 /** makeHtmlBoard: make HTML table and row of column tops. */
 
 function makeHtmlBoard() {
-  // TODO: get "htmlBoard" variable from the item in HTML w/ID of "board"
+  // get "htmlBoard" variable from the item in HTML w/ID of "board"
   const htmlBoard = document.querySelector('#board');
 
-  // TODO: add comment for this code
+
   //creating top row over the board where users will click to add a piece
   const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
@@ -48,7 +43,7 @@ function makeHtmlBoard() {
   }
   htmlBoard.append(top);
 
-  // TODO: add comment for this code
+
   /** Each array in the board array is represented in html as a tr row element. Here rows are created for each row of the board
    *  Then cells are created. cells are appended to the rows, and rows to the table.
    */
@@ -66,10 +61,9 @@ function makeHtmlBoard() {
 /** findSpotForCol: given column x, return top empty y (null if filled) */
 
 function findSpotForCol(x) {
-  // TODO: write the real version of this, rather than always returning 0
 
   for (let y = HEIGHT - 1; y >= 0; y--) {
-    if (board[y][x] === null) return y;
+    if (!board[y][x]) return y;
   }
   return null;
 }
@@ -77,11 +71,10 @@ function findSpotForCol(x) {
 /** placeInTable: update DOM to place piece into HTML table of board */
 
 function placeInTable(y, x) {
-  // TODO: make a div and insert into correct table cell
   const newPiece = document.createElement('div');
   newPiece.classList.add('piece', currPlayer === 1 ? 'p1' : 'p2')
 
-  const parentCell = document.querySelector(`[id="${y}-${x}"]`);
+  const parentCell = document.getElementById(`${y}-${x}`);
   parentCell.append(newPiece);
 
 }
@@ -90,7 +83,6 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
-  // TODO: pop up alert message
   alert(msg);
 }
 
@@ -98,7 +90,6 @@ function endGame(msg) {
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-
   let x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
@@ -109,7 +100,6 @@ function handleClick(evt) {
 
 
   // place piece in board and add to HTML table
-  // TODO: add line to update in-memory board
   placeInTable(y, x);
   board[y][x] = currPlayer;
 
@@ -119,14 +109,12 @@ function handleClick(evt) {
   }
 
   // check for tie
-  // TODO: check if all cells in board are filled; if so call, call endGame
   const everyCellIsFull = board.every(row => {
-    row.every(cell => cell !== null)
+    row.every(cell => cell)
   })
   if (everyCellIsFull) endGame("It's a tie!")
 
   // switch players
-  // TODO: switch currPlayer 1 <-> 2
   currPlayer = currPlayer === 1 ? 2 : 1;
 }
 
@@ -149,12 +137,12 @@ function checkForWin() {
   }
 
 
-  // For loops iterirate over all cells of the board
+  // For loops iterate over all cells of the board
   for (let y = 0; y < HEIGHT; y++) {
     for (let x = 0; x < WIDTH; x++) {
 
       /**Four out of eight directions are checked for every piece, horizontal right, vertical-down, diagonal-right-down, and
-       * diagonal-left-down. Since the for looops are itirating in a predictable way from the start of the board at coordinate (0,0),
+       * diagonal-left-down. Since the for loops are iterating in a predictable way from the start of the board at coordinate (0,0),
        * the other 4 directions don't need to be checked.
        */
       const horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
@@ -162,6 +150,7 @@ function checkForWin() {
       const diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
       const diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
+      //If any returns true, then there is a connect 4
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
         return true;
       }
@@ -172,4 +161,4 @@ function checkForWin() {
 makeBoard();
 makeHtmlBoard();
 
-console.log(board);
+
